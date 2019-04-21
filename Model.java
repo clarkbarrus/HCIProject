@@ -14,6 +14,8 @@
 
 package edu.ou.cs.hci.assignment.prototypeb;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 //import java.lang.*;
 import java.util.HashMap;
 import javafx.application.Platform;
@@ -49,7 +51,9 @@ public final class Model
 		properties = new HashMap<String, Object>();
 
 		// Game Parameters
-		properties.put("players",		2);
+		properties.put("players",		8);
+		properties.put("gameState",		0);
+		properties.put("playerPoints",	new ArrayList<Integer>(Arrays.asList(0,0,0,0,0,0,0,0)));
 
 		
 		// Parameters accessed and/or modified by GalleryPane controls

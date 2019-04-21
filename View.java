@@ -22,7 +22,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TabPane;
 import javafx.stage.*;
-import edu.ou.cs.hci.assignment.prototypeb.pane.*;
 
 //******************************************************************************
 
