@@ -67,7 +67,7 @@ public final class Application extends javafx.application.Application
 
 	public void	start(Stage stage)
 	{
-		Text		text = new Text("PrototypeB");
+		Text		text = new Text("Backsmash");
 		StackPane	root = new StackPane();
 
 		root.getChildren().add(text);
@@ -119,13 +119,9 @@ public final class Application extends javafx.application.Application
 
 		public void	handle(ActionEvent e)
 		{
-			View		view1 = new View(controller, "View 1",  40,  40);
-			View		view2 = new View(controller, "View 2", 120, 120);
-			View		view3 = new View(controller, "View 3", 200, 200);
+			View		view1 = new View(controller, "Backsmash",  40,  40);
 
 			controller.addView(view1);
-			controller.addView(view2);
-			controller.addView(view3);
 
 			stage.hide();
 		}

@@ -18,6 +18,7 @@ package edu.ou.cs.hci.assignment.prototypeb;
 import java.util.ArrayList;
 import java.net.URL;
 import javafx.event.EventHandler;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TabPane;
 import javafx.stage.*;
@@ -44,7 +45,7 @@ public final class View
 	private final WindowHandler			windowHandler;
 
 	// Layout
-	private final ArrayList<AbstractPane>	panes;
+	private final AbstractPane	pane;
 
 	//**********************************************************************
 	// Constructors and Finalizer
@@ -59,20 +60,10 @@ public final class View
 		windowHandler = new WindowHandler();
 
 		// Create a set of panes to include
-		panes = new ArrayList<AbstractPane>();
-
-		panes.add(new TablePane(controller));
-		panes.add(new MediaPane(controller));
-		panes.add(new CoverPane(controller));
-
-		// Create a tab pane with tabs for the set of included panes
-		TabPane	tabPane = new TabPane();
-
-		for (AbstractPane pane : panes)
-			tabPane.getTabs().add(pane.createTab());
-
+		pane = new myPane(controller);
+		
 		// Create a scene with an initial size, and attach a style sheet to it
-		Scene		scene = new Scene(tabPane, 800, 600);
+		Scene		scene = new Scene((Parent) pane.getBase(), 800, 600);
 		URL		url = View.class.getResource("View.css");
 		String		surl = url.toExternalForm();
 
@@ -97,24 +88,21 @@ public final class View
 	// Set up the nodes in the view with data accessed through the controller.
 	public void	initialize()
 	{
-		for (AbstractPane pane : panes)
-			pane.initialize();
+		pane.initialize();
 	}
 
 	// The controller calls this method when it removes a view.
 	// Unregister event and property listeners for the nodes in the view.
 	public void	terminate()
 	{
-		for (AbstractPane pane : panes)
-			pane.terminate();
+		pane.terminate();
 	}
 
 	// The controller calls this method whenever something changes in the model.
 	// Update the nodes in the view to reflect the change.
 	public void	update(String key, Object value)
 	{
-		for (AbstractPane pane : panes)
-			pane.update(key, value);
+		pane.update(key, value);
 	}
 
 	//**********************************************************************

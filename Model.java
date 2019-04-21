@@ -48,6 +48,10 @@ public final class Model
 
 		properties = new HashMap<String, Object>();
 
+		// Game Parameters
+		properties.put("players",		2);
+
+		
 		// Parameters accessed and/or modified by GalleryPane controls
 		properties.put("lions",		Boolean.FALSE);
 		properties.put("tigers",		Boolean.TRUE);
