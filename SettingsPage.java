@@ -1,4 +1,6 @@
-private Pane	buildSettings()
+		settingsIcon.setOnMouseClicked(mouseHandler);
+		exitButton.setOnMouseClicked(mouseHandler);
+	private Pane	buildSettings()
 	{
 		base = new BorderPane();
 		base.setId(“settings-pane”);
@@ -36,7 +38,7 @@ private Pane	buildSettings()
 		
 		//Category in column 2, row 3
 		Spinner clickCDchooser = new Spinner(0, 60, 0);
-		center.add(clickCDChooser, 1, 2);
+		center.add(clickCDchooser, 1, 2);
 
 		//Category in column 1, row 4
 		CheckBox finiteClicks = new CheckBox(“Finite Clicks”);
@@ -67,3 +69,36 @@ private Pane	buildSettings()
 		return center;
 		
 	}
+
+	private Pane	createSettingsTitle()
+	{
+		GridPane title = new GridPane();
+		title.setHgap(10);
+  		title.setVgap(10);
+   		title.setPadding(new Insets(0, 10, 0, 10));
+
+		//Category in row 1 column 2
+		Text settingTitle = new Text("Settings");
+		settingsTitle.setTextAlignment(TextAlignment.CENTER);
+		title.add(settingsTitle, 0, 1);
+
+		//Category in row 1 column 3
+		exitButton = new Label(createFXIcon("gear.png", 64, 64));
+		exitButton.setAlignment(Pos.TOP_RIGHT);
+		title.add(exitButton, 0, 2);
+		
+	}
+	private final class MouseHandler 
+		implements EventHandler<MouseEvent>
+	{
+		public void handle(MouseEvent e){
+			Object source = e.getSource();
+			if(source == settingsIcon){
+				controller.set("gameState", 1);
+			}
+			if(source == exitButton){
+				controller.set("gameState", 0);
+			}
+		}
+	}
+
