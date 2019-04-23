@@ -67,7 +67,12 @@ public class myPane  extends AbstractPane {
 
 		// Layout
 		private Label					settingsIcon;
-		private BorderPane				base;
+		private Label					exitButton;
+		private Pane						mainMenu;
+		private Pane						gamePane;
+		private Pane						settingsPane;
+		private StackPane				mainPane;
+	
 		// Support
 		private final char[]		playerKeys = {'a', 'l', 'c', 'n', 'r', 'u', '1', '0'};
 
@@ -97,6 +102,8 @@ public class myPane  extends AbstractPane {
 		public void	initialize()
 		{
 			settingsIcon.setOnMouseClicked(mouseHandler);
+			exitButton.setOnMouseClicked(mouseHandler);
+
 		}
 
 		// The controller calls this method when it removes a view.
@@ -104,6 +111,7 @@ public class myPane  extends AbstractPane {
 		public void	terminate()
 		{
 			settingsIcon.setOnMouseClicked(null);
+			exitButton.setOnMouseClicked(null);
 		}
 
 		// The controller calls this method whenever something changes in the model.
@@ -112,13 +120,19 @@ public class myPane  extends AbstractPane {
 		{
 			if (key.equals("gameState")) {
 				if((int)value == 0) { //Main menu
-					setBase(buildPane());
+					mainMenu.setVisible(true);
+					settingsPane.setVisible(false);
+				    gamePane.setVisible(false);
 				}
 				if((int)value == 1) { //Settings
-					setBase(buildSettings());
+					mainMenu.setVisible(false);
+					settingsPane.setVisible(true);
+				    gamePane.setVisible(false);
 				}
 				if((int)value == 2) { //Game menu
-					setBase(buildGame()); //Fix! 
+					mainMenu.setVisible(false);
+					settingsPane.setVisible(false);
+				    gamePane.setVisible(true);
 				}
 			}
 		}
@@ -127,9 +141,23 @@ public class myPane  extends AbstractPane {
 		// Private Methods (Layout)
 		//**********************************************************************
 
-		private Pane	buildPane()
+		private Pane	buildPane() 
 		{
-			base = new BorderPane();
+			mainPane = new StackPane();
+			mainMenu = buildMainMenu();
+			settingsPane = buildSettings();
+			
+			gamePane = buildGame();
+		    mainPane.getChildren().addAll(gamePane, mainMenu, settingsPane);
+		    settingsPane.setVisible(false);
+		    gamePane.setVisible(false);
+			
+			return mainPane;
+		}
+		
+		private BorderPane	buildMainMenu()
+		{
+			BorderPane base = new BorderPane();
 
 			base.setId("media-pane");			// See #media-pane in View.css
 
@@ -137,10 +165,11 @@ public class myPane  extends AbstractPane {
 			base.setTop(createMenu());
 			base.setBottom(createPlayers());
 
+			
 			return base;
 		}
 		
-		private Pane buildGame()
+		private BorderPane buildGame()
 		{
 			BorderPane base = new BorderPane();
 
@@ -150,13 +179,13 @@ public class myPane  extends AbstractPane {
 
 			return base;		}
 
-		private Pane	buildSettings()
+		private BorderPane	buildSettings()
 		{
-			base = new BorderPane();
+			BorderPane base = new BorderPane();
 			base.setId("settings-pane");
 
 			base.setCenter(createSettings());
-			//base.setTop(createSettingsTitle());
+			base.setTop(createSettingsTitle());
 			return base;
 		}
 
@@ -216,11 +245,32 @@ public class myPane  extends AbstractPane {
 			center.add(PAD, 0, 4);
 
 			//Category in column 2, row 5
-			Spinner<Double> PADChooser = new Spinner<Double>(1.0, 2.0, 1.3);
+			Spinner<Double> PADChooser = new Spinner<Double>(1.0, 2.0, 1.3, 0.1);
 			center.add(PADChooser, 1, 4);
 			
 			return center;
 			
+		}
+		
+		private Pane	createSettingsTitle()
+		{
+			GridPane title = new GridPane();
+			title.setHgap(10);
+	  		title.setVgap(10);
+	   		title.setPadding(new Insets(0, 10, 0, 10));
+
+			//Category in row 1 column 2
+			Text settingsTitle = new Text("Settings");
+			settingsTitle.setTextAlignment(TextAlignment.CENTER);
+			title.add(settingsTitle, 1, 0);
+
+			//Category in row 1 column 3
+			exitButton = new Label();
+			exitButton.setGraphic(createFXIcon("gear.png", 32, 32));
+			exitButton.setAlignment(Pos.TOP_RIGHT);
+			title.add(exitButton, 2, 0);
+			
+			return title;
 		}
 		
 		// Create a node with the media view.
@@ -302,7 +352,10 @@ public class myPane  extends AbstractPane {
 			public void handle(MouseEvent e){
 				Object source = e.getSource();
 				if(source == settingsIcon){
-
+					controller.set("gameState", 1);
+				}
+				if(source == exitButton){
+					controller.set("gameState", 0);
 				}
 			}
 		}
