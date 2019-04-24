@@ -68,10 +68,23 @@ public class myPane  extends AbstractPane {
 		// Layout
 		private Label					settingsIcon;
 		private Label					exitButton;
+		private Label					gameExitButton;
+		private Label 					goalLabel;
 		private Pane						mainMenu;
 		private Pane						gamePane;
 		private Pane						settingsPane;
 		private StackPane				mainPane;
+		
+		// Game Elements
+		private Label 		score;
+		private Label 		player1Score;
+		private Label 		player2Score;
+		private Label 		player3Score;
+		private Label 		player4Score;
+		private Label 		player5Score;
+		private Label 		player6Score;
+		private Label 		player7Score;
+		private Label 		player8Score;
 	
 		// Support
 		private final char[]		playerKeys = {'a', 'l', 'c', 'n', 'r', 'u', '1', '0'};
@@ -103,6 +116,7 @@ public class myPane  extends AbstractPane {
 		{
 			settingsIcon.setOnMouseClicked(mouseHandler);
 			exitButton.setOnMouseClicked(mouseHandler);
+			gameExitButton.setOnMouseClicked(mouseHandler);
 
 		}
 
@@ -112,6 +126,7 @@ public class myPane  extends AbstractPane {
 		{
 			settingsIcon.setOnMouseClicked(null);
 			exitButton.setOnMouseClicked(null);
+			gameExitButton.setOnMouseClicked(null);
 		}
 
 		// The controller calls this method whenever something changes in the model.
@@ -174,10 +189,25 @@ public class myPane  extends AbstractPane {
 			BorderPane base = new BorderPane();
 
 			base.setId("game-pane");			// See #media-pane in View.css
-
+			score = new Label("0");
+			base.setCenter(score);
 			base.setBottom(createGamePlayers());
+			base.setTop(createGameTop());
 
-			return base;		}
+			return base;		
+		}
+		
+		private BorderPane createGameTop()
+		{
+			BorderPane base = new BorderPane();
+			goalLabel = new Label("Goal:");
+			base.setCenter(goalLabel);
+			gameExitButton = new Label();
+			gameExitButton.setGraphic(createFXIcon("gear.png", 32, 32));
+			gameExitButton.setAlignment(Pos.TOP_RIGHT);
+			base.setRight(gameExitButton);
+			return base;
+		}
 
 		private BorderPane	buildSettings()
 		{
@@ -252,7 +282,7 @@ public class myPane  extends AbstractPane {
 			
 		}
 		
-		private Pane	createSettingsTitle()
+		private Pane		createSettingsTitle()
 		{
 			GridPane title = new GridPane();
 			title.setHgap(10);
@@ -354,9 +384,10 @@ public class myPane  extends AbstractPane {
 				if(source == settingsIcon){
 					controller.set("gameState", 1);
 				}
-				if(source == exitButton){
+				if(source == exitButton || source == gameExitButton){
 					controller.set("gameState", 0);
 				}
+				
 			}
 		}
 }
