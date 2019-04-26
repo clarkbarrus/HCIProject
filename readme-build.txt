@@ -1,3 +1,5 @@
+Download full distribution at https://github.com/clarkbarrus/HCIProject
+
 -------
 Windows
 -------
